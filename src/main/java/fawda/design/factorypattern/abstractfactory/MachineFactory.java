@@ -13,17 +13,14 @@ import fawda.design.factorypattern.IVehicle;
  * @author liuyl@hzrisencn.com
  **/
 public class MachineFactory implements IVehicleFactory {
-    @Override
     public IVehicle create() {
         return null;
     }
 
-    @Override
     public IFrame provide() {
         return null;
     }
 
-    @Override
     public IMachine assemble() {
         return null;
     }

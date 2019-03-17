@@ -10,7 +10,7 @@ package fawda.design.factorypattern;
  * @author liuyl@hzrisencn.com
  **/
 public class ElectricIVehicle implements IVehicle {
-    @Override
+
     public void create() {
         System.out.println("New electricVehicle!");
     }

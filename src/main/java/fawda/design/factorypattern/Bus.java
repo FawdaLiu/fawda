@@ -10,7 +10,6 @@ package fawda.design.factorypattern;
  * @author liuyl@hzrisencn.com
  **/
 public class Bus implements IVehicle {
-    @Override
     public void create() {
         System.out.println("New bus!");
     }

@@ -13,7 +13,6 @@ import fawda.design.factorypattern.IVehicle;
  * @author liuyl@hzrisencn.com
  **/
 public class CarFactory implements IVehicleFactory {
-    @Override
     public IVehicle create() {
         return new Car();
     }
