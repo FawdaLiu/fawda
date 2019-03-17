@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.gupaoedu.fawda.design.factorypattern.simpilefactory.SimpileFactory</OriginalElement>
+  <nodes>
+    <node x="206.0" y="113.0">com.gupaoedu.fawda.design.factorypattern.simpilefactory.SimpileFactory</node>
+    <node x="485.25" y="0.0">com.gupaoedu.fawda.design.factorypattern.IVehicle</node>
+    <node x="0.0" y="113.0">com.gupaoedu.fawda.design.factorypattern.Bus</node>
+    <node x="647.0" y="113.0">com.gupaoedu.fawda.design.factorypattern.ElectricIVehicle</node>
+    <node x="853.0" y="113.0">com.gupaoedu.fawda.design.factorypattern.Car</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.gupaoedu.fawda.design.factorypattern.simpilefactory.SimpileFactory" target="com.gupaoedu.fawda.design.factorypattern.IVehicle">
+      <point x="0.0" y="-31.5" />
+      <point x="416.5" y="93.0" />
+      <point x="555.0" y="93.0" />
+      <point x="-23.25" y="31.5" />
+    </edge>
+    <edge source="com.gupaoedu.fawda.design.factorypattern.Bus" target="com.gupaoedu.fawda.design.factorypattern.IVehicle">
+      <point x="0.0" y="-31.5" />
+      <point x="93.0" y="83.0" />
+      <point x="508.5" y="83.0" />
+      <point x="-69.75" y="31.5" />
+    </edge>
+    <edge source="com.gupaoedu.fawda.design.factorypattern.Car" target="com.gupaoedu.fawda.design.factorypattern.IVehicle">
+      <point x="0.0" y="-31.5" />
+      <point x="946.0" y="83.0" />
+      <point x="648.0" y="83.0" />
+      <point x="69.75" y="31.5" />
+    </edge>
+    <edge source="com.gupaoedu.fawda.design.factorypattern.ElectricIVehicle" target="com.gupaoedu.fawda.design.factorypattern.IVehicle">
+      <point x="0.0" y="-31.5" />
+      <point x="740.0" y="93.0" />
+      <point x="601.5" y="93.0" />
+      <point x="23.25" y="31.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="519.5" y="88.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
