@@ -1,6 +1,6 @@
 package fawda.design.factorypattern.abstractfactory;
 
-import com.gupaoedu.fawda.design.factorypattern.IVehicle;
+import fawda.design.factorypattern.IVehicle;
 
 /**
  * <b>时间:</b> <i>2019-03-07 23:52</i> 修订原因:初始化创建.详细说明:<br>

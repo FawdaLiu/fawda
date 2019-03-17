@@ -1,7 +1,7 @@
 package fawda.design.factorypattern.factory;
 
-import com.gupaoedu.fawda.design.factorypattern.Car;
-import com.gupaoedu.fawda.design.factorypattern.IVehicle;
+import fawda.design.factorypattern.Car;
+import fawda.design.factorypattern.IVehicle;
 
 /**
  * <b>时间:</b> <i>2019-03-07 23:13</i> 修订原因:初始化创建.详细说明:<br>
