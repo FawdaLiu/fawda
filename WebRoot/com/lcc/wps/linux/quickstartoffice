@@ -1,0 +1,93 @@
+#!/bin/bash
+
+
+DESC="kingsoft office quickstart server daemon"
+
+startwordcommand=/usr/bin/wps
+startpowerpointcommand=/usr/bin/wpp
+startexcelcommand=/usr/bin/et
+startdaemoncommand=/opt/kingsoft/wps-office/office6/wpsd
+
+test -x $startwordcommand || exit 0
+test -x $startpowerpointcommand || exit 0
+test -x $startexcelcommand || exit 0
+
+# 0 if process $1 is running
+function check_process()
+{
+	name=$1
+	result=1
+	if which pidof &> /dev/null ; then
+		if [ `pidof $name | wc -l` -ne 0 ]; then
+			result=0
+		fi
+	else
+		ps aux | grep -v grep | grep $name > /dev/null
+		result=$?
+	fi
+
+	echo $result
+}
+
+# start quickstart server daemon
+do_start()
+{
+	if [ `check_process wps` -eq 1 ]; then
+		$startwordcommand -quickstart
+	fi
+
+	if [ `check_process wpp` -eq 1 ]; then
+		$startpowerpointcommand -quickstart
+	fi
+
+	if [ `check_process et` -eq 1 ]; then
+		$startexcelcommand -quickstart
+	fi
+
+	if [ `check_process wpsd` -eq 1 ]; then
+		rm -f /tmp/wps/wps-daemon-port
+		if [ -e "$startdaemoncommand" ] ; then
+			$startdaemoncommand --component=wps,wpp,et --mode=window
+		fi
+	fi
+}
+
+# stop quickstart server daemon
+do_stop()
+{
+	if [ `check_process wpsd` -eq 0 ]; then
+		killall wpsd
+	fi
+
+	if [ `check_process wps` -eq 0 ]; then
+		killall wps
+	fi
+
+	if [ `check_process wpp` -eq 0 ]; then
+		killall wpp
+	fi
+
+	if [ `check_process et` -eq 0 ]; then
+		killall et
+	fi
+}
+
+case "$1" in
+start)
+	do_start
+	;;
+stop)
+	do_stop
+	;;
+restart)
+	do_stop
+	do_start
+	;;
+*)
+	echo "Usage: $0 {start|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
+

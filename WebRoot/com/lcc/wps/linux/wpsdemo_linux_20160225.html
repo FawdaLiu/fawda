@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>title</title>
+	</head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<body>
+		<div id="doc" align="left" style="position:inherit">
+			<button onclick="InitFrame()">初始化插件</button>	
+			<button onclick="createDocument()">创建新文档</button>
+                     <button onclick="Bulid()">获取版本</button>
+                     <button onclick="getPluginVersion()">获取插件版本号</button>
+	
+			<button onclick="openDocumentF()">可编辑打开本地文档</button>
+			<button onclick="openDocumentT()">只读模式打开本地文档</button>
+			<button onclick="openDocumentRemote()">打开远程文档</button>
+			<button onclick="saveAsQ()">保存本地不弹框</button>
+			<button onclick="saveAs()">保存本地弹框</button>
+			<button onclick="saveURL()">保存到远程</button>
+			<button onclick="closewps()">关闭文档</button>
+			<button onclick="printwps()">打印文档</button>
+			<button onclick="setToolbarAllVisibleT()">显示工具条</button>
+			<button onclick="setToolbarAllVisibleF()">隐藏工具条</button>
+			<button onclick="enableRevisionStart()">开启修订</button>
+			<button onclick="enableRevisionEnd()">停止修订</button>
+			<button onclick="insertPicture()">插入图片</button>
+			<button onclick="insertPictureSize()">插入图片大小</button>
+			<button onclick="getText()">获取文本内容</button>
+			<button onclick="setUserName()">设置审批用户名</button>
+			<button onclick="getUserName()">获取审批用户名</button>
+			<button onclick="showRevision0()">显示修订</button>
+			<button onclick="showRevision1()">显示原始修订</button>
+			<button onclick="showRevision2()">显示最终修订</button>
+			<button onclick="printRevision0()">打印修订</button>
+			<button onclick="printRevision1()">打印原始修订</button>
+			<button onclick="printRevision2()">打印最终修订</button>
+			<button onclick="enableProtectT()">保护文档</button>
+			<button onclick="enableProtectF()">停止保护</button>
+			<button onclick="enableRevisionAcceptCommand()">禁止接受修订按钮</button>
+			<button onclick="enableRevisionRejectCommand()">禁止拒绝修订按钮</button>
+			<button onclick="enableCut()">禁止剪切</button>
+			<button onclick="enableCopy()">禁止复制</button>
+			<button onclick="ExportToOfd()">本地导出ofd</button>
+			<button onclick="insertDocumentField()">公文域增加</button>
+			<button onclick="insertDocumentField2()">公文域增加2</button>		
+			<button onclick="getAllDocumentField()">获取公文域列表</button>	
+			<button onclick="deleteDocumentField()">公文域删除</button>		
+			<button onclick="showDocumentField()">公文域显示</button>			
+			<button onclick="showDocumentField2()">公文域不显示</button>			
+			<button onclick="getDocumentFieldValue()">查询公文域内容</button>			
+			<button onclick="enableDocumentField()">公文域可编辑</button>	
+			<button onclick="enableDocumentField2()">公文域不可编辑</button>	
+			<button onclick="insertDocument()">公文域插入文档内容</button>	
+			<button onclick="isExists()">判断公文域是否存在</button>	
+			<button onclick="backspace()">删除</button>
+			<button onclick="cursorToDocumentField()">光标移动到相应的位置</button>
+                   <button onclick="cursorToDocumentField5()">光标选中指定公文域</button>	
+			<button onclick="insertText()">光标中插入文本</button>	
+			<button onclick="setDocumentId()">设置公文域ID</button>	
+			<button onclick="getDocumentId()">获取公文域ID</button>		
+			<button onclick="setDocumentType()">设置文种</button>	
+			<button onclick="getDocumentType()">获取文种</button>
+
+			<button onclick="showDocumentMultiField()">隐藏多个公文域</button>
+			<button onclick="deleteDocumentMultiField()">删除多个公文域</button>
+			<button onclick="setDocumentField1()">公文域内容修改1</button>
+			<button onclick="setDocumentField2()">替换除正文2</button>
+                        <button onclick="fileVisible()">文件是否显示</button>
+                    
+                        <button onclick="ClipboardRegister()">复制监听</button>
+                        <button onclick="put_PrintDrawingObjects()">设置打印图形对象</button>
+                     
+                        <button onclick="put_PrintHiddenText()">设置打印隐藏文字</button>
+                        <button onclick="put_PrintHiddenTextMode1()">设置打印隐藏文字模式1</button>
+                        <button onclick="put_PrintHiddenTextMode2()">设置打印隐藏文字模式2</button>
+                        <button onclick="put_PrintHiddenTextMode3()">设置打印隐藏文字模式3</button>
+                        <button onclick="setOfdServiceProviderSuwell()">设置为Suwell</button>
+	                  <button onclick="setServiceProviderFoxit()">设置为Foxit</button>
+			<button onclick="RegisterBeforeCloseEvent()">注册关闭事件</button>
+                        <button onclick="UnRegisterBeforeCloseEvent()">取消注册关闭事件</button>
+                        <button onclick="getFileSize()">获取文件大小</button>
+                    <button onclick="saveURL2()">保存到远程_pdf加密</button><br />
+                    <button onclick="saveURL3()">保存到远程_包含设置pdf选项</button><br />
+                        		
+		</div>
+
+  		 <div id="wps" align="right" style="width:70%; height:100%; left:400px; position:absolute">
+                </div>
+  
+	</body>
+</html>
+
+<script type="text/javascript">	
+	//obj = document.getElementById("webwps_id");
+	var obj = null;
+	var app;
+
+	function init(tagID, w, h) {
+		var iframe;
+		var obj;
+		iframe = document.getElementById(tagID);
+		var codes=[];   
+		//codes.push("");
+		codes.push("<object  name='webwps' id='webwps_id' type='application/x-wps'  data='/opt/kingsoft/wps-office/office6/mui/default/templates/Normal.dotm'  width='100%'  height='100%'> <param name='Enabled' value='1' />  </object>");
+		//说明：wpsextpara参数决定新建还是打开文档
+                //新建语法：wpsextpara='-w'
+	        //打开语法：wpsextpara='/home/xx/xx.wps'
+			//http://192.168.137.80:8080/123.wps
+		//若不需要可删除，不可设置为空
+
+		iframe.innerHTML = codes.join("");
+		obj = document.getElementById("webwps_id");
+
+
+	     	window.onbeforeunload = function() { 
+	   		 obj.Application.Quit(); 
+       		 };
+
+	
+	//解决新建之后立马能输入
+/*
+		window.onblur = function() {
+		    console.log("onblur");
+		    obj.sltReleaseKeyboard();
+		};
+*/
+
+		window.onresize = function() {
+		   console.log("ondrag");
+		   obj.sltReleaseKeyboard();
+		}; 
+
+
+		return obj;
+	}
+
+	function InitFrame() 
+	{
+		obj = init("wps", "100%", "100%");
+		var Interval_control = setInterval(
+		function(){
+			app = obj.Application;
+			if(app && app.IsLoad()){
+				clearInterval(Interval_control);
+				createDocument();
+			}
+		},500);
+	}
+
+	function createDocument()
+	{
+		//obj.EnterEditMode();//解决新建之后立马能输入 QuitEditMode  sltReleaseKeyboard
+		app.createDocument("wps");
+	}
+	function openDocumentF()
+	{
+		var aa = app.openDocument("/home/ht706/桌面/1.wps", false);
+                alert (aa);
+	}
+	function openDocumentT()
+	{
+		app.openDocument("/home/ht706/桌面/11.wps", true);
+	}
+	function openDocumentRemote()
+	{
+		var aa = app.openDocumentRemote("http://192.168.137.132:8080/wps/3.ofd", false);
+                alert (aa);
+	} 
+	function saveAsQ()
+	{
+		app.saveAs("/home/ht706/桌面/123.wps");
+	}
+	function saveAs()
+	{
+		app.saveAs();
+	}
+	function saveURL()
+	{
+		var aa = app.saveURL("http://192.168.137.132:8080/wps/upload_l.jsp", "3.ofd" );
+                alert (aa);
+	}
+	function printwps()
+	{
+		app.print();
+	}
+	function closewps()
+	{
+		app.close();
+	}
+	function setToolbarAllVisibleT()
+	{
+		var aa = app.setToolbarAllVisible(true);
+                alert (aa);
+	}
+	function setToolbarAllVisibleF()
+	{
+		var aa = app.setToolbarAllVisible(false);
+               alert (aa);
+	}
+	function enableRevisionStart()
+	{
+		app.enableRevision(true);
+	}
+	function enableRevisionEnd()
+	{
+		app.enableRevision(false);
+	}
+	function insertPicture()
+	{
+		var aa = app.insertPicture("/home/ht706/桌面/1M.png");
+                alert (aa);
+	}
+	function insertPictureSize()
+	{
+		var aa = app.insertPicture("/home/ht706/桌面/1M.png", 0, 0, 80, 100);
+               alert (aa);
+	}
+	function getText()
+	{
+		alert(app.getText());
+	}
+	function setUserName()
+	{
+		app.setUserName("shenpiyonghu123");
+	}
+	function getUserName()
+	{
+		alert(app.getUserName());
+	}
+	function showRevision0()
+	{
+		app.showRevision(0);
+	}
+	function showRevision1()
+	{
+		app.showRevision(1);
+	}
+	function showRevision2()
+	{
+		app.showRevision(2);
+	}
+	function printRevision0()
+	{
+		app.printRevision(0);
+	}
+	function printRevision1()
+	{
+		app.printRevision(1);
+	}
+	function printRevision2()
+	{
+		app.printRevision(2);
+	}
+	function enableProtectT()
+	{
+		app.enableProtect(true);
+	}
+	function enableProtectF()
+	{
+		app.enableProtect(false);
+	}
+	function enableRevisionAcceptCommand()
+	{
+		var aa = app.enableRevisionAcceptCommand(false);
+                alert (aa);
+	}
+	function enableRevisionRejectCommand()
+	{
+		var bb = app.enableRevisionRejectCommand(false);
+                alert (bb);
+	}
+	function enableCut()
+	{
+		var aa = app.enableCut(false);
+                alert (aa);
+	}
+	function enableCopy()
+	{
+		var aa = app.enableCopy(false);
+                alert (aa);
+
+	}
+	function ExportToOfd()
+	{	
+		var aa = app.ExportToOfd("/home/ht706/桌面/11.ofd");
+               alert (aa);
+	}
+	function insertDocumentField()
+	{
+		var ret = app.insertDocumentField("wps1");
+	
+	}
+	function insertDocumentField2()
+	{
+		var ret = app.insertDocumentField("wps2");	
+	}
+	function getAllDocumentField()
+	{
+		var fieldsname = app.getAllDocumentField();
+		var strs = new Array();
+		strs = fieldsname.split(",");
+		alert(strs);
+	}
+	function deleteDocumentField()
+	{
+		var ret = app.deleteDocumentField("wps1");
+               alert (ret);
+	}
+	function showDocumentField()
+	{
+		app.showDocumentField("wps1",true);
+	}
+	function showDocumentField2()
+	{
+		app.showDocumentField("wps1",false);
+	}
+	function getDocumentFieldValue()
+	{
+		var ret = app.getDocumentFieldValue("wps1");
+		alert(ret);
+	}
+	function enableDocumentField()
+	{
+		app.enableDocumentField("wps1",true);
+	}
+	function enableDocumentField2()
+	{
+		app.enableDocumentField("wps1",false);
+	}
+	function insertDocument()
+	{
+		var aa = app.insertDocument("wps1","/home/ht706/桌面/wps.wps");
+               alert (aa);
+	}
+	function isExists()
+	{
+		var aa = app.isExists("wps1");
+                alert (aa);
+	}	
+	function backspace()
+	{
+		app.backspace();
+	}
+	function cursorToDocumentField()
+	{
+		app.cursorToDocumentField("wps1",4);
+	}
+      function cursorToDocumentField5()
+	{
+		app.cursorToDocumentField("wps1",5);
+	}
+	function insertText()
+	{
+		app.insertText("kingsoft");
+	}
+	function setDocumentId()
+	{
+		app.setDocumentId("kingsoft");
+	}
+	function getDocumentId()
+	{
+		var id = app.getDocumentId();
+		alert(id);
+	}
+	function setDocumentType()
+	{
+		app.setDocumentType("纪要");
+	}
+	function getDocumentType()
+	{
+		var type = app.getDocumentType();
+		alert(type);
+	}
+	function showDocumentMultiField()
+	{
+		var ret = app.showDocumentMultiField("份号,密级,保密期限,紧急程度,后缀标志,发文机关名称,发文机关代字,年份,发文顺序号,签发人_1,签发人_2,标题,主送机关,正文,发文机关署名,成文日期,抄送机关_1,抄送机关_2,抄送机关_3,抄送机关_4,抄送机关_5,印发机关,印发日期,wps1,wps2", ",", true);
+		alert(ret);
+	}
+	function deleteDocumentMultiField()
+	{
+		app.deleteDocumentMultiField("份号,密级,保密期限,紧急程度,后缀标志,发文机关名称,发文机关代字,年份,发文顺序号,签发人_1,签发人_2,标题,主送机关,正文,发文机关署名,成文日期,抄送机关_1,抄送机关_2,抄送机关_3,抄送机关_4,抄送机关_5,印发机关,印发日期,wps1,wps2",",", true);
+	}
+
+	function setDocumentField1()
+	{	
+		var ret = app.getAllDocumentField();
+		var fieldArr = ret.split(",");
+		var yus = "";
+		var values = "";
+		for(var i=0;i<fieldArr.length;i++){
+			var yu = fieldArr[i];
+			if(yu=='正文'){
+				values += '正文'
+			}else{
+			values+=(i+1);
+				
+			}
+			yus+=yu;
+			if(i!=fieldArr.length-1){
+				yus+="@#_*@";
+				values+="@#_*@";
+			}
+		}
+		
+		var aa = app.setDocumentMultiField(yus,values, true);		
+                alert (aa);
+	}
+	function setDocumentField2()
+	{		
+		var ret = app.getAllDocumentField();
+		var fieldArr = ret.split(",");
+		var yus = "";
+		var values = "";
+		for(var i=0;i<fieldArr.length;i++){
+			var yu = fieldArr[i];
+			if(yu=='正文'){
+				continue;
+			}else{
+			values+=(i+100);
+				
+			}
+			yus+=yu;
+			if(i!=fieldArr.length-1){
+				yus+="@#_*@";
+				values+="@#_*@";
+			}
+		}
+		
+		var aa = app.setDocumentMultiField(yus,values, true);
+                alert (aa);
+		
+	}
+       function fileVisible()
+	{
+		var ret = app.showCommandByName("Menu Bar", 1, true);
+		alert(ret);
+	}
+	 function Bulid()
+	{
+		var ret = app.get_Build();
+               // var ret = app.Bulid;
+		alert(ret);
+	}
+	function getPluginVersion()
+	{
+		var ret = app.getPluginVersion();
+               // var ret = app.Bulid;
+		alert(ret);
+	}
+
+         function Clipboardcallback()
+        {
+	  alert("Clipboardcallback");
+        }
+         function ClipboardRegister()
+        {
+
+	   obj.ClipbroadCheck();
+	   alert(app.registerEvent("DIID_ApplicationEvents4","ClipboardChange", "Clipboardcallback"));
+	
+         }
+
+          function put_PrintDrawingObjects()
+ 
+	 {
+	  	
+           var aa = app.Options.put_PrintDrawingObjects(true);
+           //alert (aa);
+	 }
+	
+	
+	  function put_PrintHiddenText()
+         {
+
+           var aa = app.Options.put_PrintHiddenText(true);
+           //alert (aa);
+	
+         }
+	
+          function put_PrintHiddenTextMode1()
+         {
+
+           var aa = app.Options.put_PrintHiddenTextMode(0);
+           //alert (aa);
+	
+         }
+          function put_PrintHiddenTextMode2()
+         {
+
+           var aa = app.Options.put_PrintHiddenTextMode(1);
+           //alert (aa);
+	
+         }
+          function put_PrintHiddenTextMode3()
+         {
+
+           var aa = app.Options.put_PrintHiddenTextMode(2);
+           //alert (aa);
+	
+          }
+ function setOfdServiceProviderSuwell()
+    {
+        var a = app.get_OfdExportOptions();
+        var ret = a.put_SelectServiceProvider(0);
+        alert(ret);
+    }
+	function setServiceProviderFoxit()
+	{
+		var a = app.get_OfdExportOptions();
+		var ret = a.put_SelectServiceProvider(1);
+		alert(ret);
+	}
+
+	function EventCallBack2(doc,cancel)
+	{
+		alert("EventCallBack2");
+		cancel.SetValue(true);
+		alert(cancel.GetValue());
+	}
+
+	function RegisterBeforeCloseEvent()
+	{
+		var app = obj.Application;
+		var ret = app.registerEvent("DIID_ApplicationEvents4","DocumentBeforeClose","EventCallBack2");
+		alert("ret--"+ret);
+	}
+
+    function UnRegisterBeforeCloseEvent()
+	{
+		var app = obj.Application;
+		var ret = app.unRegisterEvent("DIID_ApplicationEvents4","DocumentBeforeClose","EventCallBack2");
+		alert("ret--"+ret);
+	}
+function getFileSize(){
+		var filename = prompt("请输入文件路径","");
+		var saveformat = prompt("请输入文件后缀，为空默认为wps","")
+		alert(app.getFileSize(filename,saveformat));
+	}
+	
+	function saveURL2() {
+		var name=prompt("请输入要保存的名称","test1.ofd")
+		if (name!=null && name!=""){
+			var ret = app.saveURL("http://192.168.158.73:8080/wps/upload_w.jsp", name,"aa","bb");
+			alert(ret);
+		}
+		
+
+    }
+    function saveURL3() {
+   //通过设置ConvertSummaryInfo的值控制是否导出文档信息
+    var pdfOptions = app.get_PdfExportOptions(); 
+    var ret = pdfOptions.put_ConvertSummaryInfo(false); 
+     
+   //DocFrame.ActiveDocument.Application.PdfExportOptions.ConvertSummaryInfo = false;
+	
+    
+		var name=prompt("请输入要保存的名称","test1.ofd")
+		if (name!=null && name!=""){
+			var ret = app.saveURL("http://192.168.158.73:8080/wps/upload_w.jsp", name,"aa","bb");
+			alert(ret);
+		}
+		
+
+    }
+	
+</script>
+
+
+
+

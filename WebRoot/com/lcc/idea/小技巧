@@ -1,0 +1,24 @@
++ 1、只关注一个类里面的代码，进行毫无干扰的coding:
+    alt+v ==>> Appearance ==>> Enter Presentation Mode
++ 2、使用IDEA在编写JSON字符串的时候，然后要一个一个\去转义双引号的话，就实在太不应该了，又烦又容易出错：
+
+    光标定位在字符串中，然后alt+enter，选中Inject language or reference
+    选择后,切记，要直接按下enter回车键，才能弹出inject language列表。在列表中选择 json组件。 
+    如果要退出编辑JSON信息的视图，只需要使用ctrl+F4快捷键即可。
+    
++ 3、某个类的名字在project视图里被挡住了某一部分：
+    使用alt+1把鼠标焦点定位到project视图里，然后直接使用ctrl+shift+左右箭头来移动分割线。
+    
++ 4、在单个类里面，如果只是想批量修改某个文本，大可不必使用到重构的功能。
+    使用ctrl+w选中rabbitTemplate这个文本,然后依次使用5次alt+j快捷键，逐个选中。 
+    
++ 5、前类在project视图里是处在哪个位置。 
+    使用alt+F1，弹出Select in视图，然后选择Project View中的Project，回车，就可以立刻定位到类的位置了。
+
++ 6、依稀记得某个方法名字几个字母，想在IDEA里面找出来：
+    直接使用ctrl+shift+alt+n，使用symbol来查找即可。
+    如果你记得某个业务类里面有某个方法，那也可以使用首字母找到类,然后加个.，再输入方法名字也是可以的。
++ 7、使用ctrl+shift+n后，使用/，然后输入目录名字
+
++ 8、使用ctrl+shift+A快捷键弹出action框，然后输入Search Struct
+    搜索代码模板

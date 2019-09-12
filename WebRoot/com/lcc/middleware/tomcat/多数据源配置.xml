@@ -1,0 +1,83 @@
+<!-- #####################################################第一种,单个应用独享数据源########################################################## -->
+<!-- 就一步,找到Tomcat的server.xml找到工程的Context节点,添加一个私有数据源 -->
+<Context docBase="WebApp" path="/WebApp" reloadable="true" source="org.eclipse.jst.jee.server:WebApp">
+    <Resource name="jdbc/mysql"
+        scope="Shareable"
+        type="javax.sql.DataSource"
+        factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+        url="jdbc:mysql://localhost:3306/test"
+        driverClassName="com.mysql.jdbc.Driver"
+        username="root"
+        password="root"
+    />
+</Context>
+<!-- 优点:简单 -->
+<!-- 缺点:重用性差 -->
+<!-- #####################################################第一种,单个应用独享数据源########################################################## -->
+
+<!-- #####################################################第二种,配置全局JNDI数据源,应用到单个应用########################################################## -->
+<!-- 分两步  -->
+<!-- 第一步, 找到Tomcat的server.xml中GlobalNamingResources节点,在节点下加一个全局数据源 -->
+    <Resource
+        name="jdbc/mysql" 
+        scope="Shareable" 
+        type="javax.sql.DataSource"
+        factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+        url="jdbc:mysql://localhost:3306/test"
+        driverClassName ="com.mysql.jdbc.Driver"
+        username="root"
+        password="root"
+    />
+<!-- 第二步,找到要应用此JNDI数据源的工程Context节点,增加对全局数据源的引用ResourceLink -->
+<Context docBase="WebApp" path="/WebApp" reloadable="true">
+    <ResourceLink global="jdbc/mysql" name="jdbc/mysql" type="javax.sql.DataSource" />
+</Context>
+<!-- 优点:重用性,可控性 -->
+<!-- 缺点:配置相对第三种方法要繁琐一点,每个工程都得配 -->
+<!-- #####################################################第二种,配置全局JNDI数据源,应用到单个应用########################################################## -->
+
+<!-- #####################################################第三种,配置全局JNDI数据源,应用到所有Tomcat下部署的应用########################################################## -->
+<!-- 第三种,配置全局JNDI数据源,应用到所有Tomcat下部署的应用 -->
+<!-- 也分两步 -->
+<!-- 第一步, 找到Tomcat的server.xml中GlobalNamingResources节点,在节点下加一个全局数据源 -->
+    <Resource
+        name="jdbc/mysql" 
+        scope="Shareable" 
+        type="javax.sql.DataSource"
+        factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+        url="jdbc:mysql://localhost:3306/test"
+        driverClassName ="com.mysql.jdbc.Driver"
+        username="root"
+        password="root"
+    />
+
+<!-- 第二步,找到Tomcat的context.xml,在Context节点下加一个ResourceLink节点对第一步配置的数据源进行引用 -->
+<!-- 这个XML配置文件的根节点就是<Context> -->
+<Context>
+    <ResourceLink global="jdbc/mysql" name="jdbc/mysql" type="javax.sql.DataSource" />
+   <WatchedResource>WEB-INF/web.xml</WatchedResource>
+<Context>
+<!-- 优点:重用性,一次性到位 -->
+<!-- 缺点:没有可控性 -->
+<!-- #####################################################第三种,配置全局JNDI数据源,应用到所有Tomcat下部署的应用########################################################## -->
+
+<!-- #####################################################Spring对JNDI数据源的引用########################################################## -->
+<!-- 在applicationContext.xml中加一个bean,替代原来的dataSource -->
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/mysql" />
+<!-- #####################################################Spring对JNDI数据源的引用########################################################## -->
+
+<!-- #####################################################C3P0数据源的配置########################################################## -->
+<!-- type和factory的值发生变化 -->
+<!-- username=>user -->
+<!-- url=>jdbcUrl -->
+<!-- driverClassName=>driverClass -->
+    <Resource name="jdbc/mysql_c3p0"
+        scope="Shareable"
+        type="com.mchange.v2.c3p0.ComboPooledDataSource" 
+        factory="org.apache.naming.factory.BeanFactory"
+        jdbcUrl="jdbc:mysql://localhost:3306/test"
+        driverClass="com.mysql.jdbc.Driver"
+        user="root"
+        password="root"
+    />
+<!-- #####################################################C3P0数据源的配置########################################################## -->

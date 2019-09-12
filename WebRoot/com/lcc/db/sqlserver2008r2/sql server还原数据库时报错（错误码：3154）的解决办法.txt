@@ -1,0 +1,23 @@
+--新建查询并输入以下代码
+ALTER DATABASE [DatabaseName] SET OFFLINE WITH ROLLBACK IMMEDIATE  --断开其他用户与数据库的连接
+
+USE MASTER --这里注意要使用MASTER，以免出现待还原库被占用的情况
+RESTORE DATABASE [DatabaseName] --DatabaseName为待还原库名 
+FROM DISK = 'E:\DatabaseName.bak' ---备份文件名
+WITH MOVE 'DatabaseName' TO 'E:\Microsoft SQL Server\Data\DatabaseName.mdf',  ---指定数据文件路径
+MOVE 'DatabaseName_LOG' TO 'E:\Microsoft SQL Server\Log\DatabaseName_log.ldf', ---指定日志文件路径
+STATS = 10, REPLACE
+GO
+
+ALTER  database  [DatabaseName]  set   online  --开启其他用户和数据库的连接
+
+
+例如 ：
+USE MASTER --这里注意要使用MASTER，以免出现待还原库被占用的情况
+RESTORE DATABASE xwsjoa --DatabaseName为待还原库名 
+FROM DISK = 'C:\Users\Administrator\Desktop\wsjoa_new_backup_2018_06_12_230006_9864432.bak'  ---备份文件名
+WITH MOVE 'wsjoa' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\xwsjoa.mdf',  ---指定数据文件路径
+MOVE 'wsjoa_log' TO 'D:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\xwsjoa_log.ldf',  ---指定日志文件路径
+STATS = 10, REPLACE
+GO
+ALTER  database  xwsjoa  set   online  --开启其他用户和数据库的连接

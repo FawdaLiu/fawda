@@ -1,0 +1,43 @@
+[42S22][1054] Unknown column 'CRFNT_REMARKS' in 'field list'
+源是win下的mysql转到linux的mysql后出现此异常---重建字段解决
+
+
+[HY000][1366] Incorrect string value: '\xE8\xB6\x85\xE7\xBA\xA7...' for column 'CRACT_NAME'
+导数据是的时候出现该问题，
+绝大部分是dp.opt文件与my.ini文件，然后在进入MySQL
+-> show  variables like 'char%' 查看是否把默认latin的几个参数改成gbk
+以上办法并没有解决问题，之后在MySQL中，
+在建数据库的时候，在sql语句后面加上default chaset utf8 collate utf8_unicode_ci;
+
+[42000][1067] Invalid default value for
+show variables like 'sql_mode';
+
+在mysql的安装目录下，打开my.ini或my.cnf文件，新增
+sql_mode = ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+NO_ZERO_IN_DATE,NO_ZERO_DATE这两个参数限制时间不能为0.
+
+================================================
+mysql max_allowed_packet自动重置为1024
+注意：mysql 系统参数分为session和global 之分， session只当前连接生效，global 全局连接生效
+
+show global VARIABLES like '%max_allowed_packet%';
+1）.通过mysql客户端，set global max_allowed_packet = 2*1024*1024*10;  （修改后，重启数据库会恢复为默认）
+
+2）. 修改my.cnf  在[mysqld]段或者mysql的server配置段进行修改。（终极修改, 修改后重启数据库，永久生效）
+
+　　如下: max_allowed_packet = 20M
+
+通过以上设置后，过一段时间自动变为1024。
+mysql 有general_log, 会记录所有执行的sql命令，因为耗费性能，默认是关闭。
+show variables like '%general%';
+
+show variables like '%log%';
+
+set global general_log = ON;
+
+查看general_log：
+tail -f /var/run/mysqld/mysqld.log |grep max_allowed_packet （查看log，但打印大量实时sql操作）
+tail -f /var/run/mysqld/mysqld.log |grep max_allowed_packet >1.txt （过滤max_allowed_packet，并输出到文件1.txt)
+
+防火墙：service iptables status;

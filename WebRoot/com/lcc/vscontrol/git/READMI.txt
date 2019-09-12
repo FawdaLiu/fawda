@@ -1,0 +1,98 @@
+https://git-scm.com/book/en/v2
+https://git-scm.com/download/linux
+生成SSH KEY
+ssh-keygen -t rsa -C '15516662880@163.com'
+
+配置多用户：
+    在用户目录下的.ssh文件夹中新增config文件，内容如下
+    #Default github user(first@mail.com)
+    Host github.com
+    User git
+    IdentityFile /home/fawda/.ssh/id_rsa
+
+    #Default oschian user(first@mail.com)
+    Host git.oschian.com
+    User git.oschian.com
+    IdentityFile /home/fawda/.ssh/osc
+
+
+1、什么是ｇｉｔ
+    ３Ｗ: who what when
+    版本控制工具
+2、开源协议
+    开源项目的选型，是会涉及到开源协议的，那么开源协议有哪些呢？
+    LGPL、BSD、GPL
+
+3、git和svn的区别
+    svn:集中式的version controll centralized
+ac='!git add -A && git commit -m '
+
+git ac 'add 3.txt'
+git remote add origin 'xxx.git'
+git push origin master
+git push -u origin +master​
+同步
+git fetch
+合并
+git pull origin master
+
+1 单独的仓库
+添加
+git remote set-url origin "https://..."
+git config remote.origin.url "https://..."
+
+删除
+git remote rm origin
+
+2 全局变量
+添加
+git remote --global set-url origin "https://..."
+git config --global remote.origin.url "https://..."
+
+删除
+ vim  ~/.gitconfig
+ # 删除 origin  的 参数
+ [remote "origin"]
+
+
+提交记录
+git log
+git log --graph
+回退本地
+git reset --hard
+回退服务器
+git push -f origin master
+
+创建新分支
+git checkout -b 'xxx'
+切换分支
+git checkout 'xxx'
+撤销所有的更改
+git checkout .
+
+栈，
+git stash
+修正，修正后会记录一次commit
+git commit --amend
+
+合并
+git merge
+
+gti rebase
+会讲分支与主支直接合并
+
+发布之前创建一个ｔａｇ，就是一个分支版本
+git tag
+
+团队管理
+git-flow
+
+gitlabs
+https://bitnami.com/stack/gitlab/virtual-machine
+https://github.com/gitlabhq/gitlabhq
+https://about.gitlab.com/dowloads/#centos7
+
+在.git目录中可以看到
+git hooks
+client side
+server side

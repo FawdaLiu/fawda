@@ -1,0 +1,14 @@
+1.连上WIFI：alibaba-guess
+2.登陆跳板机
+ssh -p3700 root@60.190.239.50 Alibaba%1688
+3.登陆到专用服务器
+ssh root@10.88.14.238
+4.登陆到云
+ssh root@192.168.112.102/103  Test1234
+
+5.文件拷贝
+scp -P 3700 xxx root@60.190.239.50:/xxxx
+
+
+//代理
+ssh -f -N -D 127.0.0.1:1200 root@60.190.239.50 -p 3700 2 > /dev/null

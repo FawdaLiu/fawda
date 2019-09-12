@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TestCustomTask" default="test" basedir="com.lcc.liu">
+    <target name="init">
+        <taskdef name="SelectBuildPhase" classname="fawda.ant.SelectBuildPhase" classpath="WebRoot/WEB-INF/classes"/>
+    </target>
+    <target name="test" depends="init">
+        <SelectBuildPhase configFile="D:\\config.xml" deltaFile="D:\\delta.txt" destFile="D:\\result.property" />
+    </target>
+</project>

@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>WPS DEMO</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+button {
+    width: 140px;
+}
+
+.button80 {
+    width: 90px;
+}
+</style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <div id="doc" align="left" style="position: inherit">
+                    <button onclick="InitFrame()">初始化插件</button>
+                    <br />
+                    <button onclick="abc()">初始化插件111</button>
+                    <br />
+                    <button onclick="createDocument()">新建文档</button>
+                    <br />
+                    <button onclick="FullScreen()">全屏【CTRL+Q退出】)</button>
+                    <br />
+                    <button onclick="openDocumentT()">只读打开本地文档</button>
+                    <br />
+                    <button onclick="openDocumentF()">可编辑打开本地文档</button>
+                    <br />
+                    <button onclick="openDocumentRemote()">打开远程文档</button>
+                    <br />
+                    <button onclick="saveAs()">保存到本地</button>
+                    <br />
+                    <button onclick="saveURL()">保存到远程</button>
+                    <br />
+                    <button onclick="wpsclose()">关闭文档</button>
+                    <br />
+                    <button onclick="wpsprint()">打印</button>
+                    <br />
+                    <button onclick="printRevision()">打印/不打印修订文字</button>
+                    <br />
+                    <button onclick="enableProtectT()">保护文档</button>
+                    <br />
+                    <button onclick="enableProtectF()">停止保护</button>
+                    <br />
+                    <button onclick="setToolbarAllVisibleF()">隐藏全部工具菜单</button>
+                    <br />
+                    <button onclick="setToolbarAllVisibleT()">显示全部工具菜单</button>
+                    <br /> <br />
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.NEW)">显示新建</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.NEW)">隐藏新建</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.OPEN)">显示打开</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.OPEN)">隐藏打开</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.CLOSE)">显示关闭</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.CLOSE)">隐藏关闭</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.SAVE)">显示保存</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.SAVE)">隐藏保存</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.SAVEAS)">显示另存</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.SAVEAS)">隐藏另存</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.PAGESETUP)">显示页面设置</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.PAGESETUP)">隐藏页面设置</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.PRINT)">显示打印</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.PRINT)">隐藏打印</button>
+                    <br />
+                    <button class="button80" onclick="SetFileSubmenuItemsVisible(FileSubmenuItems.PROPERTY)">显示属性</button>
+                    <button class="button80" onclick="SetFileSubmenuItemsHidden(FileSubmenuItems.PROPERTY)">隐藏属性</button>
+                    <br /> <br />
+                    <br />
+
+                    <button onclick="insertPicture()">图片插入</button>
+                    <br />
+                    <button onclick="setUserName()">设置用户名</button>
+                    <br />
+                    <button onclick="getUserName()">获取用户名</button>
+                    <br />
+                    <button onclick="enableRevision()">开启/停止修订</button>
+                    <br />
+                    <button onclick="showRevision()">显示修订文字的状态</button>
+                    <br />
+                    <button onclick="enableRevisionRejectCommand()">禁用/启用拒绝修订按钮</button>
+                    <br />
+                    <button onclick="enableRevisionAcceptCommand()">禁用/启用接受修订按钮</button>
+                    <br />
+                    <button onclick="enableCopy()">禁用/启用复制</button>
+                    <br />
+                    <button onclick="enableCut()">禁用/启用剪切</button>
+                    <br />
+
+                    <button onclick="insertDocumentField()">添加公文域1</button>
+                    <br />
+                    <button onclick="insertDocumentField2()">添加公文域2</button>
+                    <br />
+                    <button onclick="insertDocumentField3()">添加公文域3</button>
+                    <br />
+                    <button onclick="setDocumentField()">设置公文域</button>
+                    <br />
+                    <button onclick="getAllDocumentField()">获得公文域列表</button>
+                    <br />
+                    <button onclick="deleteDocumentField()">刪除公文域</button>
+                    <br />
+                    <button onclick="showDocumentFieldT()">显示公文域</button>
+                    <br />
+                    <button onclick="showDocumentFieldF()">隐藏公文域</button>
+                    <br />
+                    <button onclick="enableDocumentFieldT()">公文域可编辑</button>
+                    <br />
+                    <button onclick="enableDocumentFieldF()">公文域不可编辑</button>
+                    <br />
+                    <button onclick="getDocumentFieldValue()">获取公文域值</button>
+                    <br />
+                    <button onclick="insertDocument()">公文域中插入文档内容</button>
+                    <br />
+                    <button onclick="insertDocument_http_session()">公文域中插入远程文档</button>
+                    <br />
+                    <button onclick="getText()">获取全文内容</button>
+                    <br />
+                    <button onclick="backspace()">删除键</button>
+                    <br />
+                    <button onclick="insertText()">光标处插入文本</button>
+                    <br />
+                    <button onclick="cursorToDocumentField()">光标移动到指定公文域指定位置</button>
+                    <br />
+                    <button onclick="cursorToDocumentField5()">光标选中指定公文域</button>
+                    <br />
+                    <button onclick="setDocumentId()">设置公文标识</button>
+                    <br />
+                    <button onclick="getDocumentId()">获取公文标识</button>
+                    <br />
+                    <button onclick="setDocumentType()">设置公文文种</button>
+                    <br />
+                    <button onclick="getDocumentType()">获取公文文种</button>
+                    <br />
+                    <button onclick="DocFieldsProtectExcept()">公文域例外保护</button>
+                    <br />
+                    <button onclick="DocFieldsUnProtectExcept()">解保护</button>
+                    <br />
+                    <button onclick="insertMultiAuthor()">插入文档所有修订者</button>
+                    <br />
+                    <button onclick="setDocumentMultiField()">修改多个公文域内容</button>
+                    <br />
+
+                    <button onclick="get_Saved()">获取saved</button>
+                    <br />
+                    <button onclick="put_Saved()">设置saved</button>
+                    <br />
+                    <button onclick="ofdoptions1()">ofd设置为福昕</button>
+                    <br />
+                    <button onclick="ofdoptions2()">ofd设置为数科</button>
+                    <br />
+                    <button onclick="get_Build()">get_Build</button>
+                    <br />
+
+                    <button onclick="getPluginVersion()">获取插件版本号</button>
+                    <br />
+                    <button onclick="getPluginVersion1()">获取插件版本号</button>
+                    <br />
+
+                </div>
+            </td>
+            <td valign="top">
+                <div id="wps" align="right" style="width: 70%; height: 100%; left: 300px; position: absolute"></div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+<script type="text/javascript">
+
+    var DocFrame;
+    var MenuItems = {FILE:1<<0, EDIT:1<<1, VIEW:1<<2, INSERT:1<<3, FORMAT:1<<4, TOOL:1<<5, CHART:1<<6, HELP:1<<7};
+    var FileSubmenuItems = {NEW:1<<0, OPEN:1<<1, CLOSE:1<<2, SAVE:1<<3, SAVEAS:1<<4, PAGESETUP:1<<5, PRINT:1<<6, PROPERTY:1<<7};
+    function abc(){
+        DocFrame.ActiveDocument.AcceptAllRevisions;
+    }
+    function init(tagID, width, height) {
+        var iframe;
+        var obj;
+        iframe = document.getElementById(tagID);
+        var codes=[];   
+        codes.push('<object id=DocFrame1 height=' + height + ' width=' + width + ' ');
+        codes.push('data=data:application/x-oleobject;base64,7Kd9juwHQ0OBQYiirbY6XwEABAA7DwMAAgAEAB0AAAADAAQAgICAAAQABAD///8ABQBcAFgAAABLAGkAbgBnAHMAbwBmAHQAIABBAGMAdABpAHYAZQBYACAARABvAGMAdQBtAGUAbgB0ACAARgByAGEAbQBlACAAQwBvAG4AdAByAG8AbAAgADEALgAwAAAA ');
+        codes.push('classid=clsid:8E7DA7EC-07EC-4343-8141-88A2ADB63A5F viewastext=VIEWASTEXT></object> ');
+        iframe.innerHTML = codes.join("");
+        obj = document.getElementById("DocFrame1");
+        
+        
+        
+        //以下方法二选一
+        //添加事件方法1
+        var fn = function(){
+            function obj::OnRequireSave(){
+                alert("用户请求保存文档");
+            }
+            
+            function obj::OnDocumentOpened(){
+                alert("文档打开");
+                 alert(DocFrame.Source); 
+            }
+            
+            function obj::OnDocumentCopy(){
+                alert("用户复制");
+            }
+            
+            function obj::OnDocumentBeforePrint(){
+                alert("用户打印");
+                
+            }
+            
+            function obj::OnDocumentBeforeSave(){
+                alert("用户保存");
+            }
+        };
+        fn();
+        //添加事件方法2
+        /*if(obj.attachEvent){
+            console.log("attachEvent...");
+            obj.attachEvent('OnRequireSave', function () {
+                alert("用户请求保存文档");
+                console.log("OnRequireSave..........222222222.....");
+            });
+        }else{
+            console.error("该版本ie不支持attachEvent事件，请设置<meta http-equiv='X-UA-Compatible' content='IE=10' />");
+        }
+        */
+        return obj;
+    }
+
+    function InitFrame() {
+        DocFrame = init("wps", "90%", "90%");
+        //需要隐藏文件的平台可以在这里调用
+        //DocFrame.MenuItems &= ~MenuItems.FILE;
+    }
+    
+    function FullScreen(){
+        DocFrame.FullScreen();
+    }
+    
+    function SetFileSubmenuItemsVisible(item){
+        DocFrame.FileSubmenuItems |= item;
+    }
+    
+    function SetFileSubmenuItemsHidden(item){
+        DocFrame.FileSubmenuItems &= ~item;
+    }
+    
+    
+    function createDocument() {
+        DocFrame.createDocument("uot");
+    }
+
+    function openDocumentT() {
+        var aa = DocFrame.openDocument('D://000001.wps',true);
+        alert(aa);
+    }
+    
+    function openDocumentF() {
+        //var aa = DocFrame.openDocument('C:\\Users\\Administrator\\Desktop\\1.wps',false);
+        var aa = DocFrame.openDocument('D://000001.wps',false);
+        alert(aa);
+    }
+
+    function openDocumentRemote() {
+        var aa = DocFrame.openDocumentRemote('http://192.168.137.132:8080/wps/test1105.wps',false);
+        alert(aa);      
+    }
+
+    function saveAs() {      
+        var aa = DocFrame.saveAs("C:\\test.wps");
+        alert(aa);
+    }
+    
+    function saveURL() {
+        var name=prompt("请输入要保存的名称","test1.ofd")
+        if (name!=null && name!=""){
+            var ret = DocFrame.saveURL("http://192.168.137.132:8080/wps/upload_w.jsp", name);
+            alert(ret);
+        }
+
+    }
+
+    function wpsprint() {
+        var aa = DocFrame.print();
+        alert(aa);
+    }
+
+    function printRevision() {//打印/不打印修订文字
+        var aa = DocFrame.printRevision(0);
+        alert(aa);
+    }
+
+    function wpsclose() {
+        var aa = DocFrame.close();
+        alert(aa);
+    }
+
+    function enableProtectT() {
+        var aa = DocFrame.enableProtect(true);
+        alert(aa);
+    }
+    function enableProtectF() {
+        var aa = DocFrame.enableProtect(false);
+        alert(aa);
+    }
+
+    function setToolbarAllVisibleF() {
+        var aa = DocFrame.setToolbarAllVisible(false);
+    }
+    
+    function setToolbarAllVisibleT() {
+        var aa = DocFrame.setToolbarAllVisible(true);
+    }
+
+    function insertPicture() {
+        var aa = DocFrame.insertPicture('C:\\Users\\Administrator\\Desktop\\11.png',50,50,30,60);
+        alert(aa);
+    }
+
+    function showRevision() {
+        var aa = DocFrame.showRevision(3);
+        alert(aa);
+    }
+
+    function enableRevision() {
+        var aa = DocFrame.enableRevision(true);
+        alert(aa);
+    }
+
+    function enableRevisionRejectCommand() {
+        var aa = DocFrame.enableRevisionRejectCommand(false);
+        alert(aa);
+    }
+
+    function enableRevisionAcceptCommand() {
+        var aa = DocFrame.enableRevisionAcceptCommand(false);
+        alert(aa);
+    }
+
+    function enableCopy() {
+        var aa = DocFrame.enableCopy(false);
+        alert(aa);
+    }
+
+    function enableCut() {
+        var aa = DocFrame.enableCut(false);
+        alert(aa);
+    }
+
+    function setUserName() {
+        var aa = DocFrame.setUserName("wps");
+        alert(aa);
+    }
+
+    function getUserName() {
+        var name = DocFrame.getUserName();
+        alert(name);
+    }
+
+    function insertDocumentField() {;
+        var isSuccess = DocFrame.insertDocumentField("wps1");
+        alert(isSuccess);
+    }
+
+    function insertDocumentField2() {;
+        var isSuccess = DocFrame.insertDocumentField("wps2");
+        alert(isSuccess);
+    }
+
+    function insertDocumentField3() {;
+        var isSuccess = DocFrame.insertDocumentField("wps3");
+        alert(isSuccess);
+    }
+
+    function setDocumentField() {
+        var isSuccess = DocFrame.setDocumentField("发文机关", "value");
+        alert(isSuccess);
+    }
+
+    function getAllDocumentField() {
+        var list = DocFrame.getAllDocumentField();
+        var strs = new Array();
+        strs = list.split(",");
+        alert(strs);
+    }
+
+    function deleteDocumentField() {
+        var isSuccess = DocFrame.deleteDocumentField("fenhao");
+        alert(isSuccess);
+    }
+
+    function showDocumentFieldT() {
+        var isSuccess = DocFrame.showDocumentField("fenhao",true);
+        alert(isSuccess);
+    }
+    function showDocumentFieldF() {
+        var isSuccess = DocFrame.showDocumentField("fenhao",false);
+        alert(isSuccess);
+    }
+
+    function enableDocumentFieldT() {
+        var isSuccess = DocFrame.enableDocumentField("fenhao",true);
+        alert(isSuccess);
+    }
+    function enableDocumentFieldF() {
+        var isSuccess = DocFrame.enableDocumentField("fenhao",false);
+        alert(isSuccess);
+    }
+
+    function getDocumentFieldValue() {
+        var value = DocFrame.getDocumentFieldValue("fenhao");
+        alert(value);
+    }
+    function insertDocument() {
+        var value = DocFrame.insertDocument("wps1", 'd:\\11.wps');
+        alert(value);
+    }
+    function getText() {
+        var value = DocFrame.getText();
+        alert(value);
+    }
+    function get_Content() {
+        var value = DocFrame.Activement.get_Conten();
+        alert(value);        
+    }
+    function backspace() {
+        var id = DocFrame.backspace();
+        alert(id);
+    }   
+    function insertText() {
+        var id = DocFrame.insertText("kingsoft");
+        alert(id);
+    }
+    function cursorToDocumentField() {
+        var id = DocFrame.cursorToDocumentField("fenhao", 3);
+        alert(id);
+    }
+    function cursorToDocumentField5() {
+        var id = DocFrame.cursorToDocumentField("fenhao", 5);
+        alert(id);
+    }
+    function setDocumentId() {
+        var id = DocFrame.setDocumentId("kingsoft");
+        alert(id);
+    }
+    function getDocumentId() {
+        var id = DocFrame.getDocumentId();
+        alert(id);
+    }
+    function setDocumentType() {
+        var ret = DocFrame.setDocumentType("决定");
+        alert(ret);
+    }
+    function getDocumentType() {
+        var type = DocFrame.getDocumentType();
+        alert(type);
+    }
+    function DocFieldsProtectExcept() {
+        DocFrame.DocFieldsProtectExcept("wps");
+    }
+    function DocFieldsUnProtectExcept() {
+        DocFrame.DocFieldsUnProtectExcept("wps");
+    }
+    function get_Saved() {
+        var isSaved = DocFrame.get_Saved();
+        alert(isSaved);
+    }
+    function put_Saved() {
+        DocFrame.put_Saved(true);
+    }
+        function insertMultiAuthor()
+    {
+        DocFrame.insertMultiAuthor(",");
+    }
+    function setDocumentMultiField()
+    {
+        var ret = DocFrame.getAllDocumentField();
+        var fieldArr = ret.split(",");
+        var yus = "";
+        var values = "";
+        //var splitStr = ",";
+        for(var i = 0; i < fieldArr.length; i++){
+            var yu = fieldArr[i];
+            
+            yus += yu;
+            values += i
+            if(i != fieldArr.length - 1){
+                yus += "@#_*@";
+                values += "@#_*@";
+            }
+        }
+        DocFrame.setDocumentMultiField(yus,values,true);
+    }
+
+function get_Build()
+    {
+        var build = DocFrame.DocObj.Application.Build;
+        alert(build);
+    }
+    function getPluginVersion()
+    {
+        var build = DocFrame.getPluginVersion();
+        alert(build);
+    }
+
+    function getPluginVersion1()
+    {
+        var build = DocFrame.ActiveDocument.BuiltInDocumentProperties(14);
+        var build1=build+"";
+        alert(build);
+    }
+
+function ofdoptions1(){
+        var value = DocFrame.ActiveDocument.Application.OfdExportOptions;
+        value.SelectServiceProvider = 1;
+        alert(value.SelectServiceProvider);
+   }
+function ofdoptions2(){
+        var value = DocFrame.ActiveDocument.Application.OfdExportOptions;
+        value.SelectServiceProvider = 0;
+        alert(value.SelectServiceProvider);
+   }
+    function insertDocument_http_session() {
+        var value = DocFrame.insertDocument("wps1", 'http://192.168.137.132:8080/wps/download.jsp?name=test.wps');
+        alert(value);
+    }
+</script>

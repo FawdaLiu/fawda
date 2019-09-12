@@ -1,0 +1,7 @@
+    /** location.origin:在ie8小报错，需要如下做兼容 */
+    var remoteRoot ;
+    if(typeof location.origin === 'undefined') {//兼容ie8
+        remoteRoot = location.protocol + '//' + location.host;
+    } else {
+        remoteRoot = window.location.origin;
+    }

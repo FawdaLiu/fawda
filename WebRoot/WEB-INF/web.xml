@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<context-param>  
+		<param-name>webAppRootKey</param-name>  
+		<param-value>risen.pt.root</param-value>  
+	</context-param>
+	
+	<display-name>基础平台</display-name>
+	<description>瑞成信息技术有限公司基础平台</description>
+
+	<distributable/>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+
+	<!--由Spring载入的Log4j配置文件位置-->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:com/risen/base/config/risen-log4j.properties</param-value>
+	</context-param>
+
+	<!--Spring默认刷新Log4j配置文件的间隔,单位为millisecond-->
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>3000</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>templatePath</param-name>
+		<param-value>class://static</param-value>
+	</context-param>
+
+	<!-- log4j日志器的入口 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:com/risen/base/config/applicationContext-entry.xml</param-value>
+	</context-param>
+	<!-- spring容器的入口 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.risen.core.handler.SessionListener</listener-class>
+	</listener>
+	
+	<!-- 
+	<filter>
+		<filter-name>PacketFilter</filter-name>
+		<filter-class>com.risen.base.interceptor.PacketFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PacketFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	  -->
+	<filter>
+		<filter-name>SecurityAuthenticationFilter</filter-name>
+		<filter-class>com.risen.base.interceptor.SecurityAuthenticationFilter</filter-class>
+		<!-- 
+		<init-param>
+			<param-name>P3P</param-name>
+			<param-value>CP=CAO PSA OUR</param-value>
+		</init-param>
+		 -->
+	</filter>
+
+	<!-- filter-mapping的设置顺序决定了对资源过滤的顺序 -->
+	<filter-mapping>
+		<filter-name>SecurityAuthenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>com.risen.base.mvc.SpringDispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:com/risen/base/config/webContext-entry.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/frame/share/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/public/frame/share/500.html</location>
+	</error-page>
+
+	<!-- 
+	<security-constraint> 
+		<web-resource-collection >
+			<web-resource-name >SSL</web-resource-name> 
+			<url-pattern>/public/login/*</url-pattern> 
+		</web-resource-collection>
+
+		<user-data-constraint> 
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+		</user-data-constraint> 
+	</security-constraint>
+	 -->
+</web-app>

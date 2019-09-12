@@ -1,0 +1,158 @@
+本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，
+那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，
+而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。
+
+Maven缺省的本地仓库地址为${user.home}/.m2/repository 。也就是说，一个用户会对应的拥有一个本地仓库。
+当然你可以通过修改${user.home}/.m2/settings.xml 配置这个地址：
+Xml代码
+<settings>
+  <localRepository> D:/java/repository</localRepository>
+</settings>
+
+如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:
+${M2_HOME}/conf/setting.xml
+
+repository是指在局域网内部搭建的repository，它跟central repository, jboss repository等的区别仅仅在于其
+URL是一个内部网址。
+mirror则相当于一个代理，它会拦截去指定的远程repository下载构件的请求，然后从自己这里找出构件回送给客户端。
+配置mirror的目的一般是出于网速考虑。
+
+不过，很多internal repository搭建工具往往也提供mirror服务，比如Nexus就可以让同一个URL,既用作internal repository，
+又使它成为所有repository的mirror。
+
+高级的镜像配置：
+1.<mirrorOf>*</mirrorOf>
+匹配所有远程仓库。 这样所有pom中定义的仓库都不生效
+2.<mirrorOf>external:*</mirrorOf>
+匹配所有远程仓库，使用localhost的除外，使用file://协议的除外。也就是说，匹配所有不在本机上的远程仓库。
+3.<mirrorOf>repo1,repo2</mirrorOf>
+匹配仓库repo1和repo2，使用逗号分隔多个远程仓库。
+4.<mirrorOf>*,!repo1</miiroOf>
+匹配所有远程仓库，repo1除外，使用感叹号将仓库从匹配中排除。
+
+mirrors可以配置多个mirror，每个mirror有id,name,url,mirrorOf属性，id是唯一标识一个mirror就不多说了，
+name貌似没多大用，相当于描述，url是官方的库地址，mirrorOf代表了一个镜像的替代位置，例如central就表示代替官方的中央库。
+
+我本以为镜像库是一个分库的概念，就是说当a.jar在第一个mirror中不存在的时候，maven会去第二个mirror中查询下载。
+但事实却不是这样，当第一个mirror中不存在a.jar的时候，并不会去第二个mirror中查找，甚至于，maven根本不会去其他的mirror地址查询。
+后来终于知道，maven的mirror是镜像，而不是“分库”，只有当前一个mirror无法连接的时候，才会去找后一个，类似于备份和容灾。
+
+还有，mirror也不是按settings.xml中写的那样的顺序来查询的。
+所谓的第一个并不一定是最上面的那个。
+当有id为B,A,C的顺序的mirror在mirrors节点中，maven会根据字母排序来指定第一个，所以不管怎么排列，
+一定会找到A这个mirror来进行查找，当A无法连接，出现意外的情况下，才会去B查询。
+
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <servers>
+        <server>
+            <id>repo-iss</id>
+            <username>deployment</username>
+            <password>deployment123</password>
+        </server>
+    </servers>
+
+    <mirrors>
+        <!-- osc镜像 -->
+        <mirror>
+            <!-- 镜像所有远程仓库，但不包括指定的仓库 -->
+            <id>mirror-osc</id>
+            <mirrorOf>external:*,!repo-osc-thirdparty,!repo-iss</mirrorOf>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </mirror>
+<!--
+        <mirror>
+            <id>mirror-iss</id>
+            <mirrorOf>external:*</mirrorOf>
+            <url>http://10.24.16.99:5555/nexus/content/groups/public/</url>
+        </mirror>
+-->
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>profile-default</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>repo-osc-thirdparty</id>
+                    <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+        <profile>
+            <id>profile-iss</id>
+            <repositories>
+                <repository>
+                    <id>repo-iss</id>
+                    <url>http://10.24.16.99:5555/nexus/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>repo-iss</id>
+                    <url>http://10.24.16.99:5555/nexus/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>profile-default</activeProfile>
+        <!--<activeProfile>profile-iss</activeProfile>-->
+    </activeProfiles>
+
+<!--
+    <proxies>
+        <proxy>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>10.10.204.160</host>
+            <port>80</port>
+        </proxy>
+    </proxies>
+-->
+</settings>
+

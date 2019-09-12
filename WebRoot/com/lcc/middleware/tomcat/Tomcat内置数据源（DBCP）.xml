@@ -1,0 +1,59 @@
+<!-- Tomcat中内置有数据源，而DBCP与tomcat同属于Apache的项目， -->
+<!-- 因此不难知道tomcat中内置的数据源其实就是DBCP数据源。使用Tomcat的内置数据源可分为两步： -->
+<!-- 一：为tomcat配置数据源 -->
+<!-- 通常情况下，在使用eclipse或Myeclipse开发时，自己习惯于使用如下方式为tomcat配置数据源： -->
+<!-- 在web应用的META-INF文件夹下创建一个context.xml配置文件,并在其中添加<Context>标签进行配置,但，这种方式生成的数据源只能用于当前web应用. -->
+<!-- 详细context.xml文件的参考代码如下： -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+    <Resource name="jdbc/EmployeeDB" 当前创建数据连接池的名字，自己定义，在使用jndi容器获取该数据源对象时会用到
+        auth="Container" 作者
+        type="javax.sql.DataSource" 对象类型这里固定为DataSource即可
+        username="dbusername" 数据库连接的用户名
+        password="dbpassword" 连接密码
+        driverClassName="com.mysql.jdbc.Driver" 驱动
+        url="jdbc:mysql:///dbcptest" 数据库的url
+        maxActive="8"  DBCP的参数，DBCP的其他参数可以加入
+        maxIdle="4"
+    />
+</Context>
+<!-- 在tomcat启动时，会逐个加载其中的web应用，当其加载到当前应用时，会加载到META-INF文件夹下该context.xml配置文件， -->
+<!-- 此时tomcat会根据其中的配置信息为当前web应用创建一个数据库连接池，注该数据库连接池只能用于当前web应用，tomcat下的其他web应用无法使用该数据库连接池。 -->
+
+
+<!-- 二、程序中获取数据源 -->
+<!-- 当tomcat读取到context.xml配置文件时会为当前web应用创建数据源，但我们在当前web应用中如何获取该数据源对象？ -->
+<!-- Tomcat中有一个共有的容器：jndi，当Tomcat为web应用创建数据源之后会将数据源以键值对的形式存放到jndi容器当中，其中键名就是数据源配置时给定的名字（详见context.xml配置文件）。 -->
+<!-- 而Tomcat会自动将jndi容器放到初始化容器InitalContext中。且jndi以固定的名字（java:comp/env）存储在InitalContext容器中，因此在web应用中可以通过如下步骤首先获取到数据源实例。 -->
+<!-- 第一步：首先在Servlet中获取InitalContext容器实例 -->
+<!-- Context initCtx = new InitialContext(); -->
+
+<!-- 第二步：在InitalContext容器中根据字符串java:comp/env搜寻，以及获取jndi容器实例 -->
+<!-- Context jndi = (Context) initCtx.lookup("java:comp/env"); -->
+
+<!-- 第三步：根据数据源的名字从jndi容器获取到数据源实例。 -->
+<!-- DataSource source = jndi.lookUp("mySource"); -->
+
+<!-- 完整参考代码如下： -->
+<!-- Context initCtx = new InitialContext(); -->
+<!-- Context jndi = (Context) initCtx.lookup("java:comp/env"); -->
+<!-- DataSource source = jndi.lookUp("mySource"); -->
+
+<!-- 但到此获取到数据源对象还没有结束，因为获取jndi的代码只能在Servlet中执行，即以上代码只能在Servlet中执行，因此还应创建一个Servlet类并在其init方法中加入以上代码， -->
+<!-- 之后便可以将数据源对象传给其他程序使用（可以将数据源对象设为类变量、或将其放入到ServletContext作用域中等等）。 -->
+<!-- 同时将该Servlet配置成为tomcat启动时执行 -->
+<!-- （即在web.xml配置文件中对应的该Servlet标签下添加： -->
+<!-- <load-on-startup>1</load-on-startup>）。 -->
+<!-- 参考代码如下： -->
+<!--     @Override -->
+<!--     public void init() throws ServletException { -->
+<!--         try{ -->
+<!--             Context initCtx = new InitialContext(); -->
+<!--             Context jndi = (Context) initCtx.lookup("java:comp/env"); -->
+<!--             DataSource source = (DataSource) jndi.lookup("mySource"); -->
+<!--             this.getServletContext().setAttribute(“dataSource”,source); -->
+<!--         }catch (Exception e) { -->
+<!--             e.printStackTrace(); -->
+<!--             throw new RuntimeException(e); -->
+<!--         } -->
+<!--     } -->

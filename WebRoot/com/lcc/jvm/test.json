@@ -1,0 +1,45 @@
+{
+    "success": true,
+    "fieldErrors": {
+    },
+    "actionErrors": [
+    ],
+    "messages": [
+        "操作成功"
+    ],
+    "data": {
+        "attSize": 9885,
+        "attType": "CoreWkflwFile",
+        "extension": "ofd",
+        "fileName": "64A9EC7C994F4FDA947E8D0EB33D870C.ofd",
+        "flowFileType": "2",
+        "intMap": {
+        },
+        "lastUpdateTime": "2018-07-03 19:03:10",
+        "order": 33,
+        "originalFileName": "64A9EC7C994F4FDA947E8D0EB33D870C.ofd",
+        "serverPath": "/CoreWkflwFile/201807/03_190237_64A9EC7C994F4FDA947E8D0EB33D870C_(64A9EC7C994F4FDA947E8D0EB33D870C).ofd",
+        "status": "1",
+        "strList": [
+        ],
+        "strMap": {
+        },
+        "text": "64A9EC7C994F4FDA947E8D0EB33D870C.ofd",
+        "unid": 51009,
+        "uuid": "64A9EC7C994F4FDA947E8D0EB33D870C",
+        "wkfileCreateTime": "2018-07-03 19:02:37",
+        "wkfileExtention": "ofd",
+        "wkfileFlowType": "2",
+        "wkfileName": "64A9EC7C994F4FDA947E8D0EB33D870C.ofd",
+        "wkfileOrder": 33,
+        "wkfileOriginalName": "64A9EC7C994F4FDA947E8D0EB33D870C.ofd",
+        "wkfileServerPath": "/CoreWkflwFile/201807/03_190237_64A9EC7C994F4FDA947E8D0EB33D870C_(64A9EC7C994F4FDA947E8D0EB33D870C).ofd",
+        "wkfileSize": 9885,
+        "wkfileStatus": "1",
+        "wkfileType": "CoreWkflwFile",
+        "wkfileUnid": 51009,
+        "wkfileUpdateTime": "2018-07-03 19:03:10",
+        "wkfileUploader": "20000010902@zhejiang.zg",
+        "wkfileUuid": "64A9EC7C994F4FDA947E8D0EB33D870C"
+    }
+}
