@@ -48,9 +48,6 @@
       </list>
     </option>
   </component>
-  <component name="FindBugs-IDEA-Workspace">
-    <toolWindowEditorPreview>false</toolWindowEditorPreview>
-  </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
@@ -469,7 +466,11 @@
       <workItem from="1567919731496" duration="2064000" />
       <workItem from="1567988831727" duration="705000" />
       <workItem from="1567995023881" duration="1000" />
-      <workItem from="1568262932911" duration="2751000" />
+      <workItem from="1568262932911" duration="4454000" />
+      <workItem from="1568294491332" duration="680000" />
+      <workItem from="1568338579510" duration="599000" />
+      <workItem from="1568507877053" duration="1924000" />
+      <workItem from="1568854315750" duration="1542000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1534341692134</created>

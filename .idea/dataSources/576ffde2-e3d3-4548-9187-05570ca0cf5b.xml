@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="172.18.148.204">
-  <database-model serializer="dbm" dbms="ORACLE" family-id="ORACLE" format-version="4.15">
+  <database-model serializer="dbm" dbms="ORACLE" family-id="ORACLE" format-version="4.16">
     <root id="1">
       <ServerVersion>11.2.0.1.0</ServerVersion>
     </root>
@@ -129,7 +129,6 @@
       <ObjectId>1</ObjectId>
       <CreatedTimestamp>2010-03-30.18:07:50</CreatedTimestamp>
       <ModifiedTimestamp>2018-09-30.04:41:04</ModifiedTimestamp>
-      <IntrospectionTimestamp>2019-08-07.22:51:43</IntrospectionTimestamp>
     </schema>
     <schema id="24" parent="1" name="QTTEST">
       <ObjectId>86</ObjectId>
@@ -152,7 +151,6 @@
       <IntrospectionTimestamp>2019-08-13.23:20:54</IntrospectionTimestamp>
       <CommentsHash>230830275839462</CommentsHash>
       <Current>1</Current>
-      <Visible>1</Visible>
     </schema>
     <schema id="27" parent="1" name="SCOTT">
       <ObjectId>84</ObjectId>
@@ -178,14 +176,12 @@
       <ObjectId>0</ObjectId>
       <CreatedTimestamp>2010-03-30.18:07:48</CreatedTimestamp>
       <ModifiedTimestamp>2019-08-08.00:00:00</ModifiedTimestamp>
-      <Substituted>1</Substituted>
     </schema>
     <schema id="32" parent="1" name="SYSMAN">
       <ObjectId>72</ObjectId>
     </schema>
     <schema id="33" parent="1" name="SYSTEM">
       <ObjectId>5</ObjectId>
-      <Substituted>1</Substituted>
     </schema>
     <schema id="34" parent="1" name="WMSYS">
       <ObjectId>32</ObjectId>

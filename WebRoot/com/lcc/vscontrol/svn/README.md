@@ -59,7 +59,6 @@
       “ ” 正常
       “C” 树冲突
       
-      
 ##### 添加忽略
 svn propset svn:ignore "a
 > b
@@ -67,3 +66,6 @@ svn propset svn:ignore "a
 > " ./
 ##### 查看忽略
 svn propget svn:ignore .
+
+##### 从trunk合并代码到branch
+svn diff  -r100:150 --summarize | grep -v "^D" | sort -u | awk '{print $2" path/"$2}' | sed 's/^/cp /g' > add_copy_files.sh
