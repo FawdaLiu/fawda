@@ -10,8 +10,6 @@ select tablespace_name from dba_tablespaces;
 
 -- 4、查询表空间路径
 select * from dba_data_files;
--- 4.1、查看数据文件相关信息
-select * from dba_data_files;
 
 -- 5、创建表空间
 -- (create  tablespace shopping --创建shopping表空间
@@ -26,11 +24,14 @@ select * from dba_data_files;
 create tablespace RISENJAVAOA logging datafile 'E:\app\Administrator\oradata\orcl\RISENJAVAOA.DBF'
  size 512m autoextend on next 512m maxsize 1024m extent management local;
 
+create tablespace RISENJAVAOA logging datafile 'E:\app\Administrator\oradata\orcl\RISENJAVAOA.DBF'
+ size 512m autoextend on next 512m maxsize unlimited extent management local;
+
 -- 6、删除表空间
 DROP TABLESPACE RISENJAVAOA INCLUDING CONTENTS  AND DATAFILES CASCADE CONSTRAINTS;
 
 -- 7、查询表空间剩余大小
-select a.tablespace_name,total,free,total-free used from (select tablespace_name,sum(bytes)/1024/1024 total from dba_data_files 
+select a.tablespace_name,total,free,total-free used from (select tablespace_name,sum(bytes)/1024/1024 total from dba_data_files
  group by tablespace_name) a,
  ( select tablespace_name,sum(bytes)/1024/1024 free from dba_free_space
  group by tablespace_name) b
@@ -62,7 +63,7 @@ SELECT tbs 表空间名,
 alter database datafile 'F:\APP\ADMINISTRATOR\ORADATA\ORCL\RISENJAVAOA.DBF' resize 1536m
 
 -- 9、表空间自动增长
-alter database datafile 'F:\APP\ADMINISTRATOR\ORADATA\ORCL\RISENJAVAOA.DBF' autoextend on next 50m maxsize 500m;    
+alter database datafile 'F:\APP\ADMINISTRATOR\ORADATA\ORCL\RISENJAVAOA.DBF' autoextend on next 50m maxsize unlimited;
 
 -- 10、附加表空间文件
 alter tablespace YYGOV add datafile 'd:\users02.dbf' size 5m;
@@ -111,6 +112,24 @@ end;
     -- 主键
     alter table tablename add primary key (columns) using index tablespace tablespacename;
 
+目前我们常用的增加表空间大小的方法有四种：
+
+（1）给表空间增加数据文件
+ALTER TABLESPACE app_data ADD DATAFILE
+'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP03.DBF' SIZE 50M;
+（2）新增数据文件，并且允许数据文件自动增长
+ALTER TABLESPACE app_data ADD DATAFILE
+'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP04.DBF' SIZE 50M
+
+AUTOEXTEND ON NEXT 5M MAXSIZE 100M;
+（3）允许已存在的数据文件自动增长
+
+ALTER DATABASE DATAFILE 'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP03.DBF'
+AUTOEXTEND ON NEXT 5M MAXSIZE 100M;
+（4）手工改变已存在数据文件的大小
+
+ALTER DATABASE DATAFILE 'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP02.DBF'
+RESIZE 100M;
 
 
 -- ####################################表空间相关EEEE####################################
@@ -183,12 +202,30 @@ select 'drop table '||table_name||';' as sqlscript from user_tables;
       --先查询一下哪些表是空的：Sql代码 
 select table_name from user_tables where NUM_ROWS=0; 
       --下面我们通过select 来生成修改语句：Sql代码 
-select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0 
+select 'alter table '||table_name||' allocate extent;' from user_tables where num_rows=0;
+
+-- 命令行导出
+-- DMS/123456是具有导出权限的用户名密码，version是导出的版本，默认是服务端版本，主要用于兼容导入低版本的数据库服务器
+-- directory是导出文件的目录，可以通过下列语句查询
+--dumpfile是导出文件名，logfile是日志文件名，schemas是导出哪个用户数据
+expdp DMS/123456 version=10.2.0.1.0 directory=DATA_PUMP_DIR dumpfile=10G_20180623_DMS.DMP logfile=TO_20180623.log schemas=SP_DMS;
+
+-- 导入
+impdp DMS/123456 directory=DATA_PUMP_DIR dumpfile= 10G_20180623.DMP  remap_schema=SP_DMS:SP_NEXT remap_tablespace=USERS:BYMIS;
+
+-- 与expdp导出相比，备份速度很慢，但是有一个优点，不要求在服务器主机执行命令，客户端能执行命令。
+exp sp_test/123456@eorcl file=D:test.dmp log=D:exp.log owner=sp_test;
 
 --先导数据rows=y indexes=n，再导索引rows=n indexes=y
-imp user2/pwd fromuser=user1 touser=user2 file=file commit=y feedback=10000 buffer=10240000 ignore=y rows=y indexes=n  
+-- ignore忽略该错误并将数据导入已存在的表，否则会跳过该表不导入任何数据。fromuser是源数据库用户 touser是目标数据库用户
+imp user2/pwd fromuser=user1 touser=user2 file=file commit=y feedback=10000 buffer=10240000 ignore=y rows=y indexes=n;
    
-imp user2/pwd fromuser=user1 touser=user2 file=file commit=y feedback=10000 buffer=10240000 ignore=y rows=n indexes=y
+imp user2/pwd fromuser=user1 touser=user2 file=file commit=y feedback=10000 buffer=10240000 ignore=y rows=n indexes=y;
+
+imp orcl/orcl@orcl full=yes file=D:\jddatabak\20180413_linux_0.dmp STATISTICS=NONE;
+
+
+expdp DMS/123456 version=10.2.0.1.0 directory=DATA_PUMP_DIR dumpfile=10G_20180623_DMS.DMP logfile=TO_20180623.log schemas=SP_DMS
 -- ####################################导入导出EEEE####################################
 
 
@@ -349,11 +386,19 @@ CREATE SYNONYM SYSN_TEST FOR TEST;-- Create public synonym CORE_ACCOUNT for rise
 CREATE PUBLIC SYNONYM PUBLIC_TEST FOR TEST;
 
 -- 2.4、如果要创建一个远程的数据库上的某张表的同义词，需要先创建一个Database Link(数据库连接)来扩展访问，
---然后再使用如下语句创建数据库同义词：create synonym table_name for table_name@DB_Link;
+create database link jqdb_link
+    connect to  jgtypt identified by jgtypt
+    using '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.2.32.228)(PORT = 1521)))(CONNECT_DATA = (SERVICE_NAME = orcl)))';
+
+create public synonym CORE_ORGANIZATION for jgtypt.CORE_ORGANIZATION@jqdb_link;
+
+--然后再使用如下语句创建数据库同义词：
+create synonym table_name for table_name@DB_Link;
 --公共同义词是和用户的schema无关的，但是公共的意思并不是所有的用户都可以访问它，必须被授权后才能进行；私有同义词是schema的对象
+
 -- 3、查看同义词：
 SELECT * FROM DBA_SYNONYMS WHERE SYNONYM_NAME IN ( 'SYSN_TEST','PUBLIC_TEST');
-SELECT * FROM USER_SYNONYMS；
+SELECT * FROM USER_SYNONYMS;
 -- 4、使用同义词
 SELECT * FROM SYSN_TEST;
 --使用同义词可以保证当数据库的位置或对象名称发生改变时，应用程序的代码保持稳定不变，仅需要改变同义词；

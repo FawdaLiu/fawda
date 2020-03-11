@@ -1,3 +1,4 @@
+/*
 package fawda.java.sftp;
 
 import java.io.IOException;
@@ -105,4 +106,4 @@ public class SftpFileTransferLiveTest {
         return client;
     }
 
-}
+}*/

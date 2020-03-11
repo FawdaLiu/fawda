@@ -32,7 +32,7 @@ select count(*) from v$process;
 --数据库允许的最大连接数
 select value from v$parameter where name = 'processes';
 -- 修改最大连接数:
-alter system set processes = 300 scope = spfile;
+alter system set processes = 600 scope = spfile;
 
 --查看当前有哪些用户正在使用数据
 SELECT osuser, a.username,cpu_time/executions/1000000||'s', sql_fulltext,machine
@@ -203,3 +203,32 @@ WHERE b.paddr = (SELECT addr
 FROM v$process c
 WHERE c.spid = TO_NUMBER ('&pid', 'xxxx')))
 ORDER BY piece ASC
+
+--- 修改字符集
+select userenv（'language'） from dual;
+如上图所示，字符集是UTF-8，修改字符集的方法如下：
+
+修改数据库字符集为：ZHS16GBK
+查看服务器端字符集SQL > select * from V$NLS_PARAMETERS
+Telnet到服务器，执行：$sqlplus /nolog
+SQL>conn / as sysdba
+若此时数据库服务器已启动，则先执行 SHUTDOWN IMMEDIATE 命令关闭数据库服务器，
+然后执行以下命令:
+SQL>shutdown immediate
+SQL>STARTUP MOUNT
+SQL>ALTER SYSTEM ENABLE RESTRICTED SESSION;
+SQL>ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+SQL>ALTER SYSTEM SET AQ_TM_PROCESSES=0;
+SQL>ALTER DATABASE OPEN;
+SQL>ALTER DATABASE CHARACTER SET ZHS16GBK;（AL32UTF8）
+
+ALTER DATABASE CHARACTER SET AL32UTF8；
+ERROR at line 1:ORA-12721: operation cannot execute when other sessions are active
+若出现上面的错误，使用下面的办法进行修改，使用INTERNAL_USE可以跳过超集的检查：
+SQL>ALTER DATABASE CHARACTER SET INTERNAL_USE ZHS16GBK;
+
+ALTER DATABASE CHARACTER SET INTERNAL_USE AL32UTF8;
+SQL>SHUTDOWN IMMEDIATE;
+SQL>STARTUP
+
+

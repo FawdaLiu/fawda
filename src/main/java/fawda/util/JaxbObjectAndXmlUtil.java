@@ -1,3 +1,4 @@
+/*
 package fawda.util;
 
 import java.io.StringReader;
@@ -17,11 +18,13 @@ import com.risen.hp.sfw.util.xml.Base64Utils;
 
 public class JaxbObjectAndXmlUtil {
 
-    /**
+    */
+/**
      * @param xmlStr 字符串
      * @param objcet 对象Class类型
      * @return 对象实例
-     */
+     *//*
+
     @SuppressWarnings({ "unchecked", "finally" })
     public static <T> T xml2Object(String xmlStr, Class<T> objcet) {
         T t = null;
@@ -36,10 +39,12 @@ public class JaxbObjectAndXmlUtil {
         }
     }
 
-    /**
+    */
+/**
      * @param object 对象
      * @return 返回xmlStr
-     */
+     *//*
+
     public static String object2Xml(Object object) {
         try {
             StringWriter writer = new StringWriter();
@@ -149,7 +154,9 @@ public class JaxbObjectAndXmlUtil {
             "</edoc>";
     
     public static void main(String[] args) {
-        /** 构造测试报文头对象 */
+        */
+/** 构造测试报文头对象 *//*
+
         WhDept dept = new WhDept();
         dept.setRecvtype("TY12");
         dept.setDepturi("10000010400@zhejiang.zg");
@@ -236,3 +243,4 @@ public class JaxbObjectAndXmlUtil {
         
     }
 }
+*/
