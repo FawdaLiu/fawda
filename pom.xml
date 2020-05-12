@@ -18,18 +18,28 @@
     <dependencyManagement>
         <dependencies>
             <!--数据库驱动 start -->
-            <dependency>
+            <!--<dependency>
                 <groupId>com.risen.dbdriver</groupId>
                 <artifactId>oraclejdbc</artifactId>
                 <version>1.0</version>
             </dependency>
-
+            -->
             <dependency>
                 <groupId>com.risen.dbdriver</groupId>
                 <artifactId>mysql</artifactId>
                 <version>5.0.8</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.risen.dbdriver</groupId>
+                <artifactId>Dm7JdbcDriver17</artifactId>
+                <version>7-17</version>
+            </dependency>
+            <dependency>
+                <groupId>com.risen.dbdriver</groupId>
+                <artifactId>oscar7Driver</artifactId>
+                <version>7.0</version>
+            </dependency>
             <dependency>
                 <groupId>com.risen.dbdriver</groupId>
                 <artifactId>hsqldb</artifactId>

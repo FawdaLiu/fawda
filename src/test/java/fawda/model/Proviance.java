@@ -1,3 +1,4 @@
+/*
 package fawda.model;
 
 import java.util.List;
@@ -31,3 +32,4 @@ public class Proviance {
         this.city = city;
     }
 }
+*/

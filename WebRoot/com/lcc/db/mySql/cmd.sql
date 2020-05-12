@@ -90,9 +90,9 @@ net stop mysql
  create user 'test'@'localhost' identified by '1234';
 
  #授予用户test通过外网IP对数据库“testdb”的全部权限
-grant all privileges on 'testdb'.* to 'test'@'%' identified by '1234';
+grant all privileges on testdb.* to 'test'@'%' identified by '1234';
 #授予用户“test”通过外网IP对于该数据库“testdb”中表的创建、修改、删除权限,以及表数据的增删查改权限
-grant create,alter,drop,select,insert,update,delete on testdb.* to test@'%';
+grant create,alter,drop,select,insert,update,delete on testdb.* to test@'%' identified by '1234';
 #刷新权限
 flush privileges;
 

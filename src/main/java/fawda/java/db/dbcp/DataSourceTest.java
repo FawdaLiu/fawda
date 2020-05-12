@@ -170,10 +170,38 @@ public class DataSourceTest {
         JdbcUtils_DBCP.release(conn.get(0), st, rs);
     }
 
+    public static void testFromKingBaseToDm() {
+        try {
+            String sql = "SELECT * FROM CORE_GLOBAL_EXTLOB";
+            st = conn.get(0).prepareStatement(sql);
+            rs = st.executeQuery();
+
+            String insertSql = "INSERT INTO CORE_GLOBAL_EXTLOB VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.get(1).prepareStatement(insertSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            while (rs.next()) {
+                preparedStatement.setInt(1, rs.getInt(1));
+                preparedStatement.setString(2, rs.getString(2));
+                preparedStatement.setString(3, rs.getString(3));
+                preparedStatement.setString(4, rs.getString(4));
+                preparedStatement.setString(5, rs.getString(5));
+                preparedStatement.setString(6, rs.getString(6));
+                preparedStatement.addBatch();
+            }
+            int[] ints = preparedStatement.executeBatch();
+            conn.get(1).commit();
+            conn.get(1).setAutoCommit(true);
+            System.out.println(ints.length);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         // DataSourceTest.testJCSelect();
-        DataSourceTest.testImportCoreAccount();
+        // DataSourceTest.testImportCoreAccount();
         // DataSourceTest.testImportCoreOrganization();
+        testFromKingBaseToDm();
     }
 
 }
