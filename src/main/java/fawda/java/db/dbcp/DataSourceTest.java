@@ -197,11 +197,30 @@ public class DataSourceTest {
         }
     }
 
+    public static void testDmResource() {
+        try {
+            String sql = "SELECT * FROM CORE_ACCOUNT WHERE ( UPPER( CRACT_UUID ) = 'DYS-QIANXIANGZHENGUANLIYUAN（JISHUZHICHI-ZHANGYUJIA）' OR UPPER( CRACT_CODE ) = 'DYS-QIANXIANGZHENGUANLIYUAN（JISHUZHICHI-ZHANGYUJIA）' ) AND CRACT_STATUS = '1';";
+            st = conn.get(1).prepareStatement(sql);
+            rs = st.executeQuery();
+
+            PreparedStatement preparedStatement = conn.get(1).prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String string = resultSet.getString(3);
+                System.out.println(string);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         // DataSourceTest.testJCSelect();
         // DataSourceTest.testImportCoreAccount();
         // DataSourceTest.testImportCoreOrganization();
-        testFromKingBaseToDm();
+        //testFromKingBaseToDm();
+        testDmResource();
     }
 
 }

@@ -46,11 +46,11 @@
                 <version>1.8.0</version>
             </dependency>
 
-            <!--<dependency>
+            <dependency>
                 <groupId>com.risen.dbdriver</groupId>
-                <artifactId>Dm7JdbcDriver15</artifactId>
-                <version>7-15</version>
-            </dependency>-->
+                <artifactId>Dm7JdbcDriver17</artifactId>
+                <version>7-17</version>
+            </dependency>
             <dependency>
                 <groupId>com.risen.dbdriver</groupId>
                 <artifactId>oscar7Driver</artifactId>
@@ -437,6 +437,10 @@
             <groupId>org.apache.axis2</groupId>
             <artifactId>org.apache.axis2.osgi</artifactId>
             <version>1.7.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.risen.dbdriver</groupId>
+            <artifactId>Dm7JdbcDriver17</artifactId>
         </dependency>
     </dependencies>
 </project>

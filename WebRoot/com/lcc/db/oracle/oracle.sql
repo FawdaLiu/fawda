@@ -330,7 +330,7 @@ on t.owner = 'RISEN_QTXQ_OA' and t.constraint_name like 'SYS_%';
 
 --五：sql拼接，批量创建主键
 --查询没有主键的表
-select table_name from user_tables a where not exists (select * from user_constraints b where b.constraint_type = 'P' and a.table_name = b.table_name) ORDER BY table_name
+select table_name from user_tables a where not exists (select * from user_constraints b where b.constraint_type = 'P' and a.table_name = b.table_name) ORDER BY table_name;
 --先查询出某一字段重复的记录，此记录需要手动创建
 select a.TABLE_NAME,count(a.TABLE_NAME)
 from user_tables a join user_tab_columns t on a.TABLE_NAME = t.TABLE_NAME
